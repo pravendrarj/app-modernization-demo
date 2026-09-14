@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.3.xsd
+           http://www.springframework.org/schema/tx
+           http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+           http://www.springframework.org/schema/task
+           http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+
+    <!--
+        OUTDATED: XML-based Spring configuration
+        Should be replaced with Java-based @Configuration classes
+    -->
+
+    <!-- Component scanning via XML (redundant with @SpringBootApplication) -->
+    <context:component-scan base-package="com.legacy.inventory"/>
+
+    <!-- Transaction management via XML -->
+    <tx:annotation-driven/>
+
+    <!-- OUTDATED: Scheduled task executor via XML -->
+    <task:annotation-driven executor="taskExecutor" scheduler="taskScheduler"/>
+    <task:executor id="taskExecutor" pool-size="5"/>
+    <task:scheduler id="taskScheduler" pool-size="3"/>
+
+    <!-- OUTDATED: Bean definitions in XML instead of @Bean -->
+    <bean id="inventoryScheduler" class="com.legacy.inventory.scheduler.InventoryScheduler"/>
+
+    <!-- OUTDATED: Properties placeholder via XML -->
+    <context:property-placeholder location="classpath:application.properties"/>
+
+    <!-- OUTDATED: Custom bean with init/destroy methods via XML -->
+    <bean id="cacheManager" class="com.legacy.inventory.util.SimpleCacheManager"
+          init-method="init" destroy-method="cleanup">
+        <property name="maxSize" value="1000"/>
+        <property name="ttlMinutes" value="30"/>
+    </bean>
+
+</beans>
