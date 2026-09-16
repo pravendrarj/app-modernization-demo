@@ -60,7 +60,35 @@ Ask for help with specific issues:
 @modernize-java-upgrade Fix the breaking change in SecurityConfig.java
 ```
 
-## Step 5: Verify the Upgrade
+## Step 5: Modernize Legacy Java APIs in the Source Code
+
+Upgrading the `pom.xml` gets you onto Java 17, but it does **not** modernize code that still
+uses obsolete APIs. Those compile fine on Java 17 — they're just wrong. Address them explicitly:
+
+```
+@modernize-java-upgrade Replace the legacy Java APIs in LegacyDateTimeUtils.java, LegacyStringUtils.java and LegacyReflectionService.java with modern equivalents
+```
+
+| File | Replace | With |
+|------|---------|------|
+| `LegacyDateTimeUtils.java` | `Date`, `Calendar`, shared `SimpleDateFormat` | `LocalDateTime`, `Instant`, `DateTimeFormatter` |
+| `LegacyStringUtils.java` | `StringBuffer`, raw types, `Thread` subclass, `printStackTrace()` | `StringBuilder`, generics, `ExecutorService`, SLF4J |
+| `LegacyReflectionService.java` | `Class.newInstance()`, `ObjectInputStream`, manual DI | `getDeclaredConstructor()`, Jackson, Spring `@Autowired` |
+
+Two of these are more than style problems:
+
+- The shared `static SimpleDateFormat` is **not thread-safe** and will corrupt dates under
+  concurrent load. `DateTimeFormatter` is immutable and fixes it outright.
+- `ObjectInputStream.readObject()` on untrusted bytes is **CWE-502** (deserialization of
+  untrusted data) — the same class of flaw behind the Commons Collections CVE in Lab 4.
+
+Ask the agent to explain the risk before accepting the change:
+
+```
+@modernize Why is the SimpleDateFormat in LegacyDateTimeUtils unsafe, and what breaks if I leave it?
+```
+
+## Step 6: Verify the Upgrade
 
 After the upgrade completes:
 
@@ -75,7 +103,13 @@ mvn clean compile
 mvn test
 ```
 
-## Step 6: Validate the Changes
+> **Before the upgrade, `mvn test` fails** with
+> `InaccessibleObjectException: module java.base does not "opens java.lang"` — Spring 4.3 and
+> Mockito 1.x can't run on JDK 17+. That is the baseline, not a regression.
+> **After** the upgrade to Spring Boot 3.x, those tests should load a context and pass.
+> That transition is the clearest signal the upgrade actually worked.
+
+## Step 7: Validate the Changes
 
 ```
 @modernize Verify this upgrade is complete and nothing was missed
@@ -89,8 +123,13 @@ mvn test
 |---------|---------|
 | `@modernize-java-upgrade Upgrade to Java 17 and Spring Boot 3.x` | Start upgrade |
 | `@modernize-java-upgrade Execute the upgrade plan` | Run the plan |
+| `@modernize-java-upgrade Replace legacy Java APIs in [files]` | Modernize source-level APIs |
 | `@modernize-java-upgrade Fix breaking change in [file]` | Fix specific issues |
 | `@modernize Build and test` | Verify results |
+
+---
+
+**Reference:** [Seeded Issue Catalog](APPENDIX-Seeded-Issue-Catalog.md) — Java upgrade patterns and their replacements
 
 ---
 

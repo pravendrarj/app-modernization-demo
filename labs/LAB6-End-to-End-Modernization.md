@@ -52,9 +52,13 @@ The agent processes tasks in dependency order:
 2. Upgrade Spring Boot
 3. Fix CVE vulnerabilities
 4. Migrate javax → jakarta
-5. Add cloud-native configuration
-6. Generate Dockerfile
-7. Generate deployment manifests
+5. Replace legacy Java APIs (`Date`/`SimpleDateFormat` → `java.time`, `ObjectInputStream` → Jackson)
+6. Externalize hard-coded configuration and secrets
+7. Refactor stateful components for horizontal scaling
+8. Add database connection pooling (HikariCP) and retry logic
+9. Add cloud-native configuration (actuator, metrics, graceful shutdown)
+10. Generate Dockerfile
+11. Generate deployment manifests
 
 ## Step 5: Validate the Modernization
 
@@ -66,10 +70,20 @@ After execution completes:
 
 The agent checks:
 - ✅ Application compiles
-- ✅ Tests pass
+- ✅ Tests pass — including the two that previously failed with
+  `InaccessibleObjectException` on JDK 17+ (the clearest proof the upgrade landed)
 - ✅ No remaining CVEs
-- ✅ Cloud-ready configuration
+- ✅ No hard-coded configuration, credentials, or filesystem paths
+- ✅ No stateful components blocking horizontal scaling
+- ✅ Database uses pooled connections with externalized credentials
+- ✅ Cloud-ready configuration (health probes, metrics, graceful shutdown)
 - ✅ Container support added
+
+Cross-check the result against the catalog of what was deliberately seeded:
+
+```
+@modernize Compare the current state against labs/APPENDIX-Seeded-Issue-Catalog.md and list anything still outstanding
+```
 
 ## Step 6: Generate a Migration Summary
 
@@ -125,6 +139,7 @@ This activates the multi-agent team:
 | 4 | CVE Remediation | `@modernize-java-security` |
 | 5 | Cloud Readiness & Containerization | `@modernize-deployment` |
 | 6 | End-to-End Modernization | `@modernize` |
+| — | [Seeded Issue Catalog](APPENDIX-Seeded-Issue-Catalog.md) | Reference |
 
 ---
 
