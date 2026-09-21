@@ -1,0 +1,48 @@
+# Kubernetes manifests for the App Modernization Demo (AKS).
+# Author: pravendrarj
+# Replace <ACR_LOGIN_SERVER> with your registry, e.g. appmodacr1234.azurecr.io
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-modernization-demo
+  labels:
+    app: app-modernization-demo
+    author: pravendrarj
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-modernization-demo
+  template:
+    metadata:
+      labels:
+        app: app-modernization-demo
+    spec:
+      containers:
+        - name: app-modernization-demo
+          image: <ACR_LOGIN_SERVER>/legacy-inventory-mgmt:latest
+          ports:
+            - containerPort: 3010
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "500m"
+              memory: "1Gi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-modernization-demo
+  labels:
+    app: app-modernization-demo
+    author: pravendrarj
+spec:
+  type: LoadBalancer
+  selector:
+    app: app-modernization-demo
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3010

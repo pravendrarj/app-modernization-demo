@@ -12,6 +12,38 @@
 
     <name>Legacy Inventory Management System</name>
     <description>A legacy inventory management system built with outdated technologies</description>
+    <url>https://github.com/pravendrarj/app-modernization-demo</url>
+
+    <organization>
+        <name>pravendrarj</name>
+        <url>https://github.com/pravendrarj</url>
+    </organization>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>https://opensource.org/licenses/MIT</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>pravendrarj</id>
+            <name>pravendrarj</name>
+            <url>https://github.com/pravendrarj</url>
+            <roles>
+                <role>author</role>
+                <role>maintainer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <scm>
+        <url>https://github.com/pravendrarj/app-modernization-demo</url>
+        <connection>scm:git:https://github.com/pravendrarj/app-modernization-demo.git</connection>
+        <developerConnection>scm:git:git@github.com:pravendrarj/app-modernization-demo.git</developerConnection>
+    </scm>
 
     <!-- OUTDATED: Using Spring Boot 1.5.x (EOL since August 2019) -->
     <parent>

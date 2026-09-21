@@ -1,5 +1,7 @@
 # Legacy Inventory Management System
 
+> **Author:** [pravendrarj](https://github.com/pravendrarj) &nbsp;•&nbsp; **Repo:** [app-modernization-demo](https://github.com/pravendrarj/app-modernization-demo) &nbsp;•&nbsp; **License:** [MIT](LICENSE)
+
 A deliberately outdated Java application built for **demonstrating GitHub Copilot App Modernization** capabilities in VS Code.
 
 ## Tech Stack (All Outdated)
@@ -194,3 +196,23 @@ mvn spring-boot:run
 | Cloud migration blockers | 10+ |
 | Code pattern issues | 15+ |
 | **Total modernization opportunities** | **60+** |
+
+---
+
+## Deployment
+
+Cloud deployment assets are included to demonstrate the target modern state:
+
+| Target | Location | Description |
+|---|---|---|
+| **Docker** | [`Dockerfile`](Dockerfile) | Multi-stage build producing a runnable container image |
+| **Azure App Service** | [`terraform/`](terraform/) | Terraform for Web App for Containers + ACR |
+| **Azure Kubernetes Service** | [`arm/`](arm/) | ARM template for AKS + ACR, plus Kubernetes manifests |
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+Copyright (c) 2026 [pravendrarj](https://github.com/pravendrarj).

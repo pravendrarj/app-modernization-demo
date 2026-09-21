@@ -39,6 +39,7 @@ variable "tags" {
   type        = map(string)
   default = {
     application = "legacy-inventory-mgmt"
+    author      = "pravendrarj"
     managed_by  = "terraform"
   }
 }

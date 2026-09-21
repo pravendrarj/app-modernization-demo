@@ -1,0 +1,24 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "clusterName": {
+      "value": "appmod-aks"
+    },
+    "dnsPrefix": {
+      "value": "appmod"
+    },
+    "kubernetesVersion": {
+      "value": "1.29.7"
+    },
+    "nodeCount": {
+      "value": 2
+    },
+    "nodeVmSize": {
+      "value": "Standard_DS2_v2"
+    },
+    "acrSku": {
+      "value": "Basic"
+    }
+  }
+}
