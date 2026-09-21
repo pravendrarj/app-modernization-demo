@@ -1,0 +1,16 @@
+target/
+*.log
+.git/
+.gitignore
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+labs/
+README.md
+terraform/
+*.tfstate
+*.tfstate.*
+.terraform/
